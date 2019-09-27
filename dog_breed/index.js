@@ -1,14 +1,16 @@
 /* eslint-disable no-console */
-function getDogImage() {
-  fetch('https://dog.ceo/api/breeds/image/random')
+function getDogImage(userInput) {
+  fetch(`https://dog.ceo/api/breeds/image/random/${userInput}`)
     .then(response => response.json())
     .then(responseJson => 
-      displayResults(responseJson))
+      displayResults(responseJson, userInput))
     .catch(error => alert('Something went wrong. Try again later.'));
 }
 
-function displayResults(responseJson) {
-  console.log(responseJson);
+function displayResults(responseJson, userInput) {
+  for (let i = 0; i < userInput; i++){
+    console.log(responseJson.message[i]);
+  }
   //replace the existing image with the new one
   $('.results-img').replaceWith(
     `<img src="${responseJson.message}" class="results-img">`
@@ -20,7 +22,7 @@ function displayResults(responseJson) {
 function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
-    getDogImage();
+    getDogImage(7);
   });
 }
 

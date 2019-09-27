@@ -14,3 +14,7 @@ body {
 .hidden {
   display: none;
 }
+
+.result-img {
+  display: block;
+}
