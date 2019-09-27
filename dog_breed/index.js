@@ -1,6 +1,5 @@
-/* eslint-disable no-console */
 function getDogImage(userInput) {
-  fetch(`https://dog.ceo/api/breeds/image/random/${userInput}`)
+  fetch(`https://dog.ceo/api/breed/${userInput}/images/random`)
     .then(response => response.json())
     .then(responseJson => 
       displayResults(responseJson, userInput))
@@ -8,21 +7,26 @@ function getDogImage(userInput) {
 }
 
 function displayResults(responseJson, userInput) {
-  for (let i = 0; i < userInput; i++){
-    console.log(responseJson.message[i]);
+  if (responseJson.status === 'error'){
+    $('.results').html(
+      '<h2>Your breed does not exist!</h2>'
+    );
+  } else {
+    $('.results').html(
+      `<h2>Look at this ${userInput}!</h2>
+      <img src="${responseJson.message}" class="results-img">`
+    );
+    //display the results section
+    $('.results').removeClass('hidden');
+    }
   }
-  //replace the existing image with the new one
-  $('.results-img').replaceWith(
-    `<img src="${responseJson.message}" class="results-img">`
-  );
-  //display the results section
-  $('.results').removeClass('hidden');
-}
+
 
 function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
-    getDogImage(7);
+    let userInput = $('.js-user-input').val();
+    getDogImage(userInput);
   });
 }
 
